@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
-    password2: '', // For password confirmation
+    password2: '', // This is the state for the confirmation field
   });
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // Initialize the navigate function
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,7 +28,6 @@ function Register() {
     }
 
     try {
-      // Send data to your live backend's register endpoint
       const response = await fetch('https://abhisheksharma07.pythonanywhere.com/api/users/register/', {
         method: 'POST',
         headers: {
@@ -43,19 +42,16 @@ function Register() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        // Handle potential errors from the backend
         const errorMessage = Object.values(errorData).join('\n');
         throw new Error(errorMessage || "Registration failed!");
       }
-
-      // If registration is successful, redirect to the login page
       navigate('/login');
-
     } catch (err) {
       setError(err.message);
     }
   };
 
+  // The main changes are in the return() block below
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-xl shadow-md">
@@ -97,6 +93,7 @@ function Register() {
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-400 focus:outline-none"
             />
           </div>
+          {/* THIS IS THE MISSING FIELD YOU NEED TO ADD */}
           <div>
             <input
               type="password"
